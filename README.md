@@ -33,6 +33,14 @@ For a custom response pass a `Response` object. e.g.
         $sapi = new Sapi($whiteList, $sapiRes);
 ```
 
+### To actually use this, add pavlakis/slim-cli as well
+To be able to call functions via the commandline, you need additional middleware, otherwise your code is only filtering calls from certain sources.
+
+For instance, in you src/middleware.php use the following to accept CLI and web calls through fpm-fcgi. Then map the CLI calls to the correct Request object through [pavlakis/slim-cli](https://github.com/pavlakis/slim-cli)
+```
+        $app->add(new Pavlakis\Middleware\Server\Sapi(["cli", "fpm-fcgi"]));
+        $app->add(new \pavlakis\cli\CliRequest());
+```
 
 
 
